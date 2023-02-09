@@ -1,0 +1,6 @@
+{% comment %} Paste this code at the before </body> tag in theme.liquid file {% endcomment %}
+{%- if template contains "product" -%}
+    <script>
+        window.Shopify.RecentlyViewed.recordRecentlyViewed();
+    </script>
+{%- endif -%}

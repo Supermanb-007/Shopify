@@ -1,0 +1,14 @@
+<div class="product-item">
+    <div class="product-item__image">
+        <img src="{{- product.featured_image.src | img_url: 'medium' -}}" />
+    </div>
+    <div class="product-item__title">
+        {{- product.title -}}
+    </div>
+    <div class="product-item__content-wrapper">
+        <div class="product-item__price">
+            {{- product.price -}}
+        </div>
+        <div class="product-item__rating"></div>
+    </div>
+</div>

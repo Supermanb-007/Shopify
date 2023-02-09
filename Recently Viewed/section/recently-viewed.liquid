@@ -1,0 +1,96 @@
+<div class="product-recently-viewed" data-section-id="{{ section.id }}" data-items-grid="{{- section.settings.grid -}}" data-slider-enable="{{- section.settings.enable_carousel -}}" data-section-type="recently-viewed">
+    {%- liquid 
+        case section.settings.heading_alignment
+            when "center"
+             assign headingAlign = "center"
+            when "left"
+             assign headingAlign = "left"
+            when "right"
+             assign headingAlign = "right"
+            else
+                assign headingAlign = "left"
+        endcase 
+    -%}
+  
+    <div class="container {% if section.settings.enable_carousel %}container--not-mobile{% endif %} fully-spaced-row">
+      <div class="{% if section.settings.enable_carousel %}collection-slider{% endif %}">
+            <h3 class="align-{{ headingAlign }}">{{ section.settings.title }}</h3>
+            <div class="collection-listing related-collection" {% comment %} data-cc-animate="cc-fade-in-up"{% endcomment %}>
+                <div class="js-recently-viewed-list {% if section.settings.enable_carousel %}carousel{% endif %} product-list js-slider product-list--per-row-{{ section.settings.grid }} product-list--per-row-mob-{{ settings.prod_thumb_mob_per_row }} product-list--image-shape-{{ settings.prod_thumb_shape }}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% javascript %}
+    let RecentlyViewedInterval = setInterval(() => {
+        if(window.Shopify.RecentlyViewed){
+            clearInterval(RecentlyViewedInterval);
+            window.Shopify.RecentlyViewed.fetchRecentlyViewed();
+        }
+    }, 500);
+{% endjavascript %}
+
+{% schema %}
+{
+    "name": "Product Recently Viewed",
+    "class": "section-recently-viewed",
+    "settings": [
+    {
+        "type": "paragraph",
+        "content": "Recently viewed product are tracked as per the user's journey"
+    },
+    {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Recently viewed"
+    },
+    {
+        "type": "select",
+        "id": "heading_alignment",
+        "label": "Heading Alignment",
+        "options": [
+        {
+            "value": "center",
+            "label": "Center"
+        },
+        {
+            "value": "left",
+            "label": "Left"
+        },
+        {
+            "value": "right",
+            "label": "Right"
+        }],
+        "default": "left"
+    },
+    {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show product vendor",
+        "default": false
+    },
+    {
+        "type": "range",
+        "id": "grid",
+        "label": "Maximum products to show",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 4
+    },
+    {
+        "type": "checkbox",
+        "id": "enable_carousel",
+        "label": "Enable carousel",
+        "default": true
+    }],
+    "presets": [
+    {
+        "name": "Product Recently Viewed"
+    }]
+}
+{% endschema %}
+  
